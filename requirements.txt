@@ -1,0 +1,7 @@
+ply==3.11
+pyasn1==0.4.8
+pycryptodomex==3.16.0
+pysmi==0.3.4
+pysnmp==4.4.12
+pywinrm==0.4.3
+pyopenssl==22.1.0
