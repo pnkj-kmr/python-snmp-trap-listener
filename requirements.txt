@@ -5,3 +5,4 @@ pysmi==0.3.4
 pysnmp==4.4.12
 pywinrm==0.4.3
 pyopenssl==22.1.0
+pip-system-certs==4.0

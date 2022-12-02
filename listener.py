@@ -3,8 +3,7 @@ from pysnmp.entity import engine, config
 from pysnmp.carrier.asyncore.dgram import udp
 from pysnmp.entity.rfc3413 import ntfrcv
 from config import LISTENER_IP, LISTENER_PORT
-
-from actions.windows_machine import execute_action1, execute_action2
+from actions.windows_machine import execute_shutdown
 
 
 
@@ -18,18 +17,34 @@ def listerner_func(*args, **kwagrs):
     
     # taking 4 variable to explore
     varBinds = args[3]
+    mapper = {}
     for key, val in varBinds:        
         print('%s = %s' % (key.prettyPrint(), val.prettyPrint()))
+        mapper[key.prettyPrint()] = val.prettyPrint()
+
+    if mapper.get("1.3.6.1.6.3.1.1.4.1.0"):
         # checking for specific key and value
         # check as per your request
         # from pysnmp.proto.rfc1902 import ObjectName
         # from pyasn1.type.univ import ObjectIdentifier
+        ###### upsTrapsOnBattery
+        # Trap recieved as (*args, **kwagrs) len: 5 0
+        # 1.3.6.1.2.1.1.3.0 = 0
+        # 1.3.6.1.6.3.1.1.4.1.0 = 1.3.6.1.4.1.935
+        # 1.3.6.1.2.1.33.1.2.3.0 = 0
+        # 1.3.6.1.2.1.33.1.2.2.0 = 0
+        # 1.3.6.1.2.1.33.1.9.7.0 = 0
+        ###### lowBattery
+        # Trap recieved as (*args, **kwagrs) len: 5 0
+        # 1.3.6.1.2.1.1.3.0 = 0
         # 1.3.6.1.6.3.1.1.4.1.0 = 1.3.6.1.4.1.935.0.7
-        if key.prettyPrint() == "1.3.6.1.6.3.1.1.4.1.0" and val.prettyPrint() == "1.3.6.1.4.1.935.0.7":
+        # 1.3.6.1.6.3.18.1.3.0 = 127.0.0.1
+        # 1.3.6.1.6.3.18.1.4.0 = public
+        # 1.3.6.1.6.3.1.1.4.3.0 = 1.3.6.1.4.1.935
+        if mapper.get("1.3.6.1.6.3.1.1.4.1.0") == "1.3.6.1.4.1.935.0.7":
             print(f"======================================")
             print(f"calling handler function for this case")
-            execute_action1()
-            # execute_action2()
+            execute_shutdown()
 
 
 
