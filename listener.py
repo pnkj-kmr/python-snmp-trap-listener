@@ -2,8 +2,8 @@
 from pysnmp.entity import engine, config
 from pysnmp.carrier.asyncore.dgram import udp
 from pysnmp.entity.rfc3413 import ntfrcv
-from config import LISTENER_IP, LISTENER_PORT
-from actions.windows_machine import execute_shutdown
+from config import LISTENER_IP, LISTENER_PORT, TARGET_SYSTEMS
+from actions.windows_machine import calling_action
 
 
 
@@ -44,7 +44,7 @@ def listerner_func(*args, **kwagrs):
         if mapper.get("1.3.6.1.6.3.1.1.4.1.0") == "1.3.6.1.4.1.935.0.7":
             print(f"======================================")
             print(f"calling handler function for this case")
-            execute_shutdown()
+            calling_action(TARGET_SYSTEMS)
 
 
 

@@ -1,30 +1,16 @@
+import winrm
 import traceback
 import sys
-import winrm
 
 
-read_timeout=120
-write_timeout=60
+TARGET_SYSTEMS = [
+    {
+        'machine_ip': '192.168.0.145',
+        'username': r'bpets',
+        'password': '2022',
+    }
+]
 
-
-# machine_ip = '10.50.103.119'
-# username = r'admin'
-# password = 'admin'
-
-
-"""
-If you perform shutdwon on windows systems
-    confirm this configuration on target machine
-
-1 - windows winrm service should running
-2 - cmd <run as administrator> winrm configSDDL default 
-    - username should be added first
-3 - cmd <run as administrator> winrm get winrm/config
-    - port http (5985) listed
-    - trustedhost should added
-5 - add a user in the group to force shutdown
-    type in: secpol.msc -> local policies -> User Rights Assignment -> force shutdown from a remote system
-"""
 
 def calling_action(targets):
     for s in targets:
@@ -60,6 +46,5 @@ def execute_shutdown(machine_ip, username, password):
         print(f"Error:{type(exc)} {exc}")
 
 
-
 if __name__ == '__main__':
-    execute_shutdown()
+    calling_action(TARGET_SYSTEMS)
